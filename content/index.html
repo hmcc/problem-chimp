@@ -1,0 +1,46 @@
+{% extends "base.j2" %}
+{% from "macros.j2" import render_excerpt with context %} 
+--- 
+title: "" 
+created: 2014-12-02 21:19:00 
+listing: True 
+---
+
+{% block title %}Heather McCartney{% endblock %} {% block main %}
+<div class="profile">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <img src="media/img/heather.jpg" alt="Heather McCartney">
+      </div>
+      <div class="col-sm-9">
+        <h1>Heather McCartney</h1>
+        <p>I'm a software developer living in York, UK. My background is
+          in Java but I'm also comfortable with Python.</p>
+        <p>
+          I've <a href="/work">worked in companies of all sizes</a> but
+          lately I've enjoyed working with a couple of early-stage startups,
+          most recently <a href="http://stashmetrics.com/" target="_blank">Stashmetrics</a>
+          here in York.
+        </p>
+        <p>
+          I'm currently on maternity leave with my second (and last!) child,
+          due to return to work in May 2015. You can take a look at some <a
+            href="/projects">things I've done</a>, and if you're interested in
+          working with me, please <a href="/contact">get in touch.</a>
+        </p>
+      </div>
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</div><!-- /.profile -->
+
+<div class="container">
+
+  <section class="blog_excerpt">
+    <ul class="list-unstyled">
+      {% for res in resource.node.walk_resources_sorted_by_time() %} 
+        {% if loop.index0 < 5 %}<li>{{ render_excerpt(res) }}</li> {% endif %} 
+      {% endfor %}
+    </ul>
+</div><!-- /.container -->
+{% endblock %}

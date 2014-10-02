@@ -1,0 +1,41 @@
+{% extends "page.j2" %}
+
+{% block container %}
+<div id="detail-row" class="row-fluid">
+  <div id="post-content" class="span8">
+    <article class="post">
+      <div id="post-header">
+        <h1>
+          {{ resource.meta.title }}
+          <small>
+            <time datetime="{{ res.meta.created.strftime('%Y-%m-%d') }}">
+              {{ resource.meta.created.strftime('%a, %d %b %Y') }}
+            </time>
+          </small>
+        </h1>
+      </div>
+
+      <div id="post-body">
+        {% filter markdown|typogrify -%}
+        {% mark post -%}
+        {% block post -%}{%- endblock %}
+        {%- endmark %}
+        {%- endfilter %}
+      </div>
+    </article>
+
+    {% if resource.prev_by_time %}<a href="{{ content_url(resource.prev_by_time.url) }}">Previous</a>{% endif %}
+    {% if resource.next_by_time %}<a href="{{ content_url(resource.next_by_time.url) }}">Next</a>{% endif %}
+  </div>
+
+  <div id="recent-content" class="span4 well">
+    <h2>Recent Posts</h2>
+    <ul>
+    {% for res in resource.node.walk_resources_sorted_by_time() %}
+      {% if loop.index0 < 5 %}<li><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></li>{% endif %}
+    {%- endfor %}
+    </ul>
+    <p>Want more articles? Browse the <a href="{{ content_url('blog/archives.html') }}">complete archives.</a></p>
+  </div>
+</div>
+{%- endblock %}

@@ -1,0 +1,65 @@
+/*
+ * application.css
+ */
+
+/* Correction for navbar */
+body {
+	padding-top: 50px;
+}
+
+/* Styling for profile section on home page */
+.profile {
+	padding: 40px 0px;
+	background-color: #f8f8f8;
+}
+
+/* Display images in posts on a line of their own */
+article.post img {
+	display: block;
+	margin-bottom: 24px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	color: #fff;
+	background-color: #353544;
+}
+
+body>.container {
+	padding: 60px 15px 0;
+}
+
+.footer>.container p {
+	margin: 20px 0;
+}
+
+.footer>.container p a {
+	padding: 0 5px;
+	color: #b3b3b3;
+}
+
+.footer>.container p a:hover,.footer>.container p a:active {
+	padding: 0 5px;
+	color: #fff;
+}
+
+.footer>.container {
+	padding-right: 15px;
+	padding-left: 15px;
+}

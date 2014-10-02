@@ -1,0 +1,25 @@
+application: problem-chimp
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  static_files: static/index.html
+  upload: static_files/index.html
+
+- url: /work
+  static_files: static/work.html
+  upload: static_files/work.html
+
+- url: /projects
+  static_files: static/projects.html
+  upload: static_files/projects.html
+
+- url: /contact
+  static_files: static/contact.html
+  upload: static_files/contact.html
+
+- url: /
+  static_dir: static
+
