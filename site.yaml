@@ -24,13 +24,13 @@ context:
               type: page
               url: /
             - title: Work
-              type: page
+              type: node
               url: /work
             - title: Projects
-              type: page
+              type: node
               url: /projects
             - title: Contact
-              type: page
+              type: node
               url: /contact
 sorter:
     time:

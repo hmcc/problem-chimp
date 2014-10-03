@@ -1,7 +1,8 @@
 application: problem-chimp
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
 
 handlers:
 - url: /
@@ -9,16 +10,16 @@ handlers:
   upload: static_files/index.html
 
 - url: /work
-  static_files: static/work.html
-  upload: static_files/work.html
+  static_files: static/work/index.html
+  upload: static_files/work/index.html
 
 - url: /projects
-  static_files: static/projects.html
-  upload: static_files/projects.html
+  static_files: static/projects/index.html
+  upload: static_files/projects/index.html
 
 - url: /contact
-  static_files: static/contact.html
-  upload: static_files/contact.html
+  static_files: static/contact/index.html
+  upload: static_files/contact/index.html
 
 - url: /
   static_dir: static
