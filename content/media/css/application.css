@@ -7,16 +7,44 @@ body {
 	padding-top: 50px;
 }
 
-/* Styling for profile section on home page */
+/* Utility class for vertical alignment */
+.vcenter {
+    float:none;
+    display:inline-block;
+    vertical-align:middle;
+}
+
+/* Home
+-------------------------------------------------- */
+/* Styling for profile section */
 .profile {
 	padding: 40px 0px;
 	background-color: #f8f8f8;
 }
 
+/* Blog
+-------------------------------------------------- */
 /* Display images in posts on a line of their own */
 article.post img {
 	display: block;
 	margin-bottom: 24px;
+}
+
+/* Contact
+-------------------------------------------------- */
+/* Margin after icons */
+#contact i {
+	margin-right: 12px;
+}
+
+a .contact-text {
+  color: #555
+}
+
+a:hover .contact-text,
+a:focus .contact-text{
+  color: #777;
+  text-decoration: underline;
 }
 
 /* Sticky footer styles
