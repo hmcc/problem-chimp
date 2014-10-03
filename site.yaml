@@ -21,7 +21,7 @@ context:
         home_url: index.html
         menu:
             - title: Home
-              type: page
+              type: node
               url: /
             - title: Work
               type: node

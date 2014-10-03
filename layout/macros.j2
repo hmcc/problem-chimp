@@ -16,11 +16,18 @@
 {% macro render_main_menu() -%}
 <ul class="nav navbar-nav">
 {% for item in menu -%}
+  {# Remove leading '/' in URL #}
+  {% if item.url.startswith('/') -%}
+    {% set url = item.url[1:] -%}
+  {% else -%}
+    {% set url = item.url -%}
+  {%- endif %}
+
   {% set active = False -%}
   {% if item.type == 'page' -%}
-    {% set active = (resource.url == site.content.resource_from_relative_path(item.url).url) -%}
+    {% set active = (resource.url == site.content.resource_from_relative_path(url).url) -%}
   {% else -%}
-    {% set active = (node == site.content.node_from_relative_path(item.url)) -%}
+    {% set active = (node == site.content.node_from_relative_path(url)) -%}
   {%- endif %}
   <li {% if active %}class="active"{% endif %}>
     <a href="{{ content_url(item.url) }}">{{ item.title }}</a>
