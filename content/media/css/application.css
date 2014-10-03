@@ -4,37 +4,37 @@
 
 /* Correction for navbar */
 body {
-	padding-top: 50px;
+  padding-top: 50px;
 }
 
 /* Utility class for vertical alignment */
 .vcenter {
-    float:none;
-    display:inline-block;
-    vertical-align:middle;
+  float:none;
+  display:inline-block;
+  vertical-align:middle;
 }
 
 /* Home
 -------------------------------------------------- */
 /* Styling for profile section */
 .profile {
-	padding: 40px 0px;
-	background-color: #f8f8f8;
+  padding: 40px 0px;
+  background-color: #f8f8f8;
 }
 
 /* Blog
 -------------------------------------------------- */
 /* Display images in posts on a line of their own */
 article.post img {
-	display: block;
-	margin-bottom: 24px;
+  display: block;
+  margin-bottom: 24px;
 }
 
 /* Contact
 -------------------------------------------------- */
 /* Margin after icons */
 #contact i {
-	margin-right: 12px;
+  margin-right: 12px;
 }
 
 a .contact-text {
@@ -50,44 +50,44 @@ a:focus .contact-text{
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-	position: relative;
-	min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-	/* Margin bottom by footer height */
-	margin-bottom: 60px;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
 }
 
 .footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	/* Set the fixed height of the footer here */
-	height: 60px;
-	color: #fff;
-	background-color: #353544;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  color: #fff;
+  background-color: #353544;
 }
 
 body>.container {
-	padding: 60px 15px 0;
+  padding: 60px 15px 0;
 }
 
 .footer>.container p {
-	margin: 20px 0;
+  margin: 20px 0;
 }
 
 .footer>.container p a {
-	padding: 0 5px;
-	color: #b3b3b3;
+  padding: 0 5px;
+  color: #b3b3b3;
 }
 
 .footer>.container p a:hover,.footer>.container p a:active {
-	padding: 0 5px;
-	color: #fff;
+  padding: 0 5px;
+  color: #fff;
 }
 
 .footer>.container {
-	padding-right: 15px;
-	padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
