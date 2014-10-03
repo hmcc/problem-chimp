@@ -1,6 +1,6 @@
 # problem-chimp
 
-My personal website at [www.problemchimp.org](www.problemchimp.org), using [Hyde][hyde] and [Bootstrap][bootstrap].
+My personal website at [www.problemchimp.org](www.problemchimp.org), using [Hyde](http://hyde.github.com/) and [Bootstrap](http://getbootstrap.com/).
 
 ## Bootstrap settings
 The customized Bootstrap CSS is available from http://getbootstrap.com/customize/?id=02f54ab22136b1a190db
@@ -17,9 +17,6 @@ If you don't need to use Google App Engine:
 To use Google App Engine:
   1. Grab the source as above
   2. From the terminal run `hyde gen -d deploy/static`. 
-  3. Run with
-```bash
-  <path to google_appengine>/dev_appserver.py --port 5000 deploy/app.yaml
-```
+  3. Run with `<path to google_appengine>/dev_appserver.py deploy/app.yaml`
 
 
