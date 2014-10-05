@@ -42,7 +42,7 @@ a .contact-text {
 }
 
 a:hover .contact-text,
-a:focus .contact-text{
+a:focus .contact-text {
   color: #777;
   text-decoration: underline;
 }
@@ -80,6 +80,10 @@ body>.container {
 .footer>.container p a {
   padding: 0 5px;
   color: #b3b3b3;
+}
+
+.footer>.container p.text-muted a {
+  color: #777;
 }
 
 .footer>.container p a:hover,.footer>.container p a:active {
