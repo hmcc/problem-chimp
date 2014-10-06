@@ -1,0 +1,52 @@
+---
+title: Price Search
+created: !!timestamp '2014-10-06 23:03:00'
+---
+
+{% mark excerpt -%}
+
+In our household, I am responsible for food planning, shopping, and cooking.
+Each week I buy food for 3 meals a day, 7 days a week, for 2 adults, 1 
+preschooler, and 1 baby. With [food prices rising in real terms by 12% 
+since 2007][food-stats], I find I'm spending more and more of my time trying 
+to make my budget go further.
+[food-stats]: https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/315418/foodpocketbook-2013update-29may14.pdf
+
+{%- endmark %}
+
+
+With the rise of internet shopping, and in particular the supermarket 
+comparison site [mySupermarket], it should be trivial to figure out the 
+cheapest place to shop. [mySupermarket] automatically keeps track of the total 
+cost of a trolley of goods in each of the main UK supermarkets, and allows you 
+to choose the cheapest at the end.
+
+The problem is that starting with a fixed shopping list and then working out 
+the cheapest way to get it is a poor approximation of the way I actually shop.
+
+My process is almost exactly the reverse of that promoted by [mySupermarket]. 
+I identify what's cheap/in season **first**, and only then plan meals and write 
+a shopping list. Also, the vast majority of my shopping is made up of things 
+that I can easily store for a while (such as tinned tomatoes, teabags, pasta, 
+rice, oils, spices, nappies, meat for the freezer, laundry detergent and 
+bathroom products). That means that there are very few things I need to buy in 
+any particular week; the things I choose to buy based on their current price 
+and/or seasonality make up the majority of my shopping.
+
+[mySupermarket] does provide the necessary data for this (in the form of 
+"Savvy Buys" pages) but not the interface to go with it. The "price alerts"
+feature is inadequate, because:
+
+a) It sends an email if the price drops at all, even if the item is still
+poor value
+
+b) It sends one email per item
+
+The only reliable way to identify good value items on the day I'm due to shop
+is to sift through them manually. This is time-consuming and tedious (900+ 
+items each week at my local supermarket) so [I decided to automate it]
+[price-search-github].
+
+[mySupermarket]: http://www.mysupermarket.co.uk/
+[scrapy]: http://scrapy.org/
+[price-search-github]: https://github.com/hmcc/price-search

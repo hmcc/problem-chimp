@@ -26,9 +26,6 @@ context:
             - title: Work
               type: node
               url: /work
-            - title: Projects
-              type: node
-              url: /projects
             - title: Contact
               type: node
               url: /contact

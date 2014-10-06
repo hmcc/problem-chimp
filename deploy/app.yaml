@@ -13,10 +13,6 @@ handlers:
   static_files: static/work/index.html
   upload: static_files/work/index.html
 
-- url: /projects
-  static_files: static/projects/index.html
-  upload: static_files/projects/index.html
-
 - url: /contact
   static_files: static/contact/index.html
   upload: static_files/contact/index.html
