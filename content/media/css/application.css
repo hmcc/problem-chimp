@@ -7,6 +7,10 @@ body {
   padding-top: 50px;
 }
 
+.navbar-nav>li {
+float: left;
+}
+
 /* Utility class for vertical alignment */
 .vcenter {
   float:none;
