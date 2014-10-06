@@ -47,30 +47,12 @@ a:focus .contact-text {
   text-decoration: underline;
 }
 
-/* Sticky footer styles
+/* Footer
 -------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
   color: #fff;
   background-color: #353544;
-}
-
-body>.container {
-  padding: 60px 15px 0;
 }
 
 .footer>.container p {
@@ -78,16 +60,17 @@ body>.container {
 }
 
 .footer>.container p a {
-  padding: 0 5px;
   color: #b3b3b3;
+  padding: 0 5px;
 }
 
 .footer>.container p.text-muted a {
   color: #777;
+  padding: 0;
 }
 
-.footer>.container p a:hover,.footer>.container p a:active {
-  padding: 0 5px;
+.footer>.container p a:hover,
+.footer>.container p a:active {
   color: #fff;
 }
 
