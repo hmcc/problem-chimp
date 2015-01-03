@@ -26,8 +26,10 @@ float: left;
   background-color: #f8f8f8;
 }
 
-.profile img {
-  padding-top: 30px
+@media (min-width: 768px) {
+  .profile img {
+    padding-top: 30px
+  }
 }
 
 /* Work
@@ -64,28 +66,64 @@ a:focus .contact-text {
 
 /* Sticky footer styles
  -------------------------------------------------- */
+@media (max-width: 767px) {
+  body {
+    margin-bottom: 120px;
+  }
+
+  .footer {
+    /* Set the fixed height of the footer here */
+    min-height: 120px;
+  }
+
+  body>.container {
+    padding: 120px 15px 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  body {
+    margin-bottom: 80px;
+  }
+
+  .footer {
+    /* Set the fixed height of the footer here */
+    min-height: 80px;
+  }
+
+  body>.container {
+    padding: 80px 15px 0;
+  }
+}
+
+@media (min-width: 992px) {
+  body {
+    margin-bottom: 60px;
+  }
+
+  .footer {
+    /* Set the fixed height of the footer here */
+    min-height: 60px;
+  }
+
+  body>.container {
+    padding: 60px 15px 0;
+  }
+}
+
 html {
   position: relative;
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
+
  
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  min-height: 60px;
   color: #fff;
   background-color: #353544;
-}
- 
-body>.container {
-  padding: 60px 15px 0;
 }
 
 .footer>.container p {
