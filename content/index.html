@@ -1,19 +1,59 @@
-{% extends "base.j2" %}
-{% from "macros.j2" import render_excerpt with context %} 
---- 
-title: "" 
-created: 2014-12-02 21:19:00 
-listing: True 
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="">
+    <title>Heather McCartney</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-{% block title %}{{ site_title }}{% endblock %} {% block main %}
-<div class="profile">
+        <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+        <link href="/media/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/media/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/media/css/application.css" rel="stylesheet">
+        
+        <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+        
+        <link rel="shortcut icon" href="/favicon.ico" />
+    
+      </head>
+
+  <body class="index">
+
+    <div id="site">
+      <header>
+        <nav>
+          <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+              <div>
+                                <ul class="nav navbar-nav">
+  
+    <li class="active">
+    <a href="/">Home</a>
+  </li>  
+    <li >
+    <a href="/work">Work</a>
+  </li>  
+    <li >
+    <a href="/contact">Contact</a>
+  </li></ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <div class="main">
+      <div class="profile">
   <div class="container">
     <div class="row">
-      <div class="col-sm-4 col-md-3">
-        <img src="media/img/heather.jpg" alt="Heather McCartney">
+      <div class="col-sm-3 col-lg-2">
+        <img src="media/img/heather.jpg" style="padding-top: 30px" alt="Heather McCartney">
       </div>
-      <div class="col-sm-8 col-md-9">
+      <div class="col-sm-9 col-lg-10">
         <h1>Heather McCartney</h1>
         <p>I'm a software developer living in York, UK. My background is
           in Java but I'm also comfortable with Python.</p>
@@ -22,13 +62,6 @@ listing: True
           lately I've enjoyed working with a couple of early-stage startups,
           most recently <a href="http://stashmetrics.com/" target="_blank">Stashmetrics</a>
           here in York.
-        </p>
-        <p>
-          I'm currently on maternity leave with my second (and last!) child,
-          due to return to work in May 2015. You can take a look at some <a
-          href="https://github.com/hmcc" target="_blank">things I've done</a>,
-          and if you're interested in working with me, please 
-          <a href="/contact">get in touch.</a>
         </p>
       </div>
     </div><!-- /.row -->
@@ -39,10 +72,54 @@ listing: True
 
   <section class="blog_excerpt">
     <ul class="list-unstyled">
-      {% for res in resource.node.walk_resources_sorted_by_time() %} 
-        {% if loop.index0 < 5 %}<li>{{ render_excerpt(res) }}</li> {% endif %} 
-      {% endfor %}
-    </ul>
+       
+        <li><article >
+  <h3>
+    <a href="/blog/price-search.html">Price Search</a>
+    <small>
+      <time datetime="2014-10-06">
+        Mon, 06 Oct 2014
+      </time>
+    </small>
+  </h3>
+  <p>In our household, I am responsible for food planning, shopping, and cooking.
+Each week I buy food for 3 meals a day, 7 days a week, for 2 adults, 1 
+preschooler, and 1 baby. With <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/315418/foodpocketbook-2013update-29may14.pdf">food prices rising in real terms by 12% 
+since 2007</a>, I find I&#8217;m spending more and more of my time trying 
+to make my budget go&nbsp;further.</p><a href="/blog/price-search.html">Read more&hellip;</a>
+</article>
+</li>  
+          </ul>
   </section>
 </div><!-- /.container -->
-{% endblock %}
+      </div> <!-- /.main -->
+
+      <footer>
+              <div class="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-9">
+                <p class="text-muted"><small>&copy; Heather McCartney 2014. Source available on <a href="https://github.com/hmcc/problem-chimp">GitHub</a>. Favicon by <a href="http://www.flaticon.com/authors/freepik" target="_blank">Freepik</a> <a href="http://creativecommons.org/licenses/by/2.0/" target="_blank">CC BY</a>.</small></p>
+              </div>
+              <div class="col-sm-3">
+                <p class="text-right">
+                  <a href="mailto:heather@problemchimp.org"><i class="fa fa-envelope"></i></a>
+                  <a href="http://twitter.com/h_mcc" target="_blank"><i class="fa fa-twitter"></i></a>
+                  <a href="https://github.com/hmcc" target="_blank"><i class="fa fa-github"></i></a>
+                  <a href="http://uk.linkedin.com/in/heathermccartney" target="_blank"><i class="fa fa-linkedin"></i></a>
+                </p>
+              </div><!-- /.col-xx -->
+            </div><!-- /.row -->
+          </div><!-- /.container -->
+        </div><!-- /.footer -->
+            </footer>
+    </div> <!-- /#site -->
+    
+        
+    <!--[if lt IE 7 ]>
+      <script src="/media/js/libs/dd_belatedpng.js"></script>
+      <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
+    <![endif]-->
+
+      </body>
+</html>
