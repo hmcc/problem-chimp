@@ -26,6 +26,13 @@ float: left;
   background-color: #f8f8f8;
 }
 
+/* Work
+-------------------------------------------------- */
+/* Padding on images */
+.work img {
+  padding-right: 10px;
+}
+
 /* Blog
 -------------------------------------------------- */
 /* Display images in posts on a line of their own */
