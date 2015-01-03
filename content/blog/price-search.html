@@ -15,38 +15,32 @@ to make my budget go further.
 {%- endmark %}
 
 
-With the rise of internet shopping, and in particular the supermarket 
-comparison site [mySupermarket], it should be trivial to figure out the 
-cheapest place to shop. [mySupermarket] automatically keeps track of the total 
-cost of a trolley of goods in each of the main UK supermarkets, and allows you 
-to choose the cheapest at the end.
+For a while, I used [mySupermarket] to help me find the cheapest place to shop.
+However, after the first couple of weeks, I found the benefit to me was 
+minimal, and it took me a while to figure out why.
 
-The problem is that starting with a fixed shopping list and then working out 
-the cheapest way to get it is a poor approximation of the way I actually shop.
+The problem is that the site expects me to do this:
+<ul>
+  <li>Start with a fixed shopping list</li>
+  <li>Work out the cheapest way to get it</li>
+</ul>
+**This is a very poor approximation of the way I actually shop.**
 
 My process is almost exactly the reverse of that promoted by [mySupermarket]. 
 I identify what's cheap/in season **first**, and only then plan meals and write 
-a shopping list. Also, the vast majority of my shopping is made up of things 
-that I can easily store for a while (such as tinned tomatoes, teabags, pasta, 
-rice, oils, spices, nappies, meat for the freezer, laundry detergent and 
-bathroom products). That means that there are very few things I need to buy in 
-any particular week; the things I choose to buy based on their current price 
-and/or seasonality make up the majority of my shopping.
+a shopping list. I don't need a tool that tells me where to buy something; I
+need to know when to buy it, in the same way as using [CamelCamelCamel] for 
+[Amazon] shopping.
 
 [mySupermarket] does provide the necessary data for this (in the form of 
-"Savvy Buys" pages) but not the interface to go with it. The "price alerts"
-feature is inadequate, because:
-
-a) It sends an email if the price drops at all, even if the item is still
-poor value
-
-b) It sends one email per item
-
-The only reliable way to identify good value items on the day I'm due to shop
-is to sift through them manually. This is time-consuming and tedious (900+ 
-items each week at my local supermarket) so [I decided to automate it]
+"Savvy Buys" pages) but not the interface to go with it, so I end up sifting 
+through them manually. This is time-consuming and tedious (900+ items each 
+week at [ASDA]) so [I decided to automate it]
 [price-search-github].
 
+[amazon]: http://www.amazon.co.uk/
+[asda]: http://www.asda.com/
+[camelcamelcamel]: http://uk.camelcamelcamel.com/
 [mySupermarket]: http://www.mysupermarket.co.uk/
 [scrapy]: http://scrapy.org/
 [price-search-github]: https://github.com/hmcc/price-search

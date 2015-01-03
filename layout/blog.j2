@@ -28,7 +28,7 @@
     {% if resource.next_by_time %}<a href="{{ content_url(resource.next_by_time.url) }}">Next</a>{% endif %}
   </div>
 
-  <div id="recent-content" class="span4 well">
+  <div id="recent-content" class="span4">
     <h2>Recent Posts</h2>
     <ul>
     {% for res in resource.node.walk_resources_sorted_by_time() %}
