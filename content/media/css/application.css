@@ -26,6 +26,10 @@ float: left;
   background-color: #f8f8f8;
 }
 
+.profile img {
+  padding-top: 30px
+}
+
 /* Work
 -------------------------------------------------- */
 /* Padding on images */
