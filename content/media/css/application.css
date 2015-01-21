@@ -47,6 +47,15 @@ article.post img {
   margin-bottom: 24px;
 }
 
+/* Margin before recent posts */
+article.post {
+  margin-bottom: 24px;
+}
+
+div#post-content {
+  margin-bottom: 48px;
+}
+
 /* Contact
 -------------------------------------------------- */
 /* Margin after icons */

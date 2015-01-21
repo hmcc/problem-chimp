@@ -26,9 +26,13 @@ context:
             - title: Work
               type: node
               url: /work
+            - title: Blog
+              type: node
+              url: /blog
             - title: Contact
               type: node
               url: /contact
+
 sorter:
     time:
         attr:

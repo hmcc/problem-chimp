@@ -17,6 +17,10 @@ handlers:
   static_files: static/contact/index.html
   upload: static_files/contact/index.html
 
+- url: /blog
+  static_files: static/blog/index.html
+  upload: static_files/blog/index.html
+
 - url: /
   static_dir: static
 
