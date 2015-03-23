@@ -1,6 +1,6 @@
 # problem-chimp
 
-My personal website at [problemchimp.org](problemchimp.org), using [Hyde](http://hyde.github.com/) and [Bootstrap](http://getbootstrap.com/).
+My personal website at [problemchimp.org](http://problemchimp.org), using [Hyde](http://hyde.github.com/) and [Bootstrap](http://getbootstrap.com/).
 
 ## Bootstrap settings
 The customized Bootstrap CSS is available from http://getbootstrap.com/customize/?id=02f54ab22136b1a190db
