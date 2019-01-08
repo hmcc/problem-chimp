@@ -7,9 +7,9 @@ handlers:
   static_files: static/index.html
   upload: static_files/index.html
 
-- url: /work
-  static_files: static/work/index.html
-  upload: static_files/work/index.html
+- url: /about
+  static_files: static/about/index.html
+  upload: static_files/about/index.html
 
 - url: /contact
   static_files: static/contact/index.html
