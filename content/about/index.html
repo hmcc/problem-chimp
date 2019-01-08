@@ -1,0 +1,38 @@
+{% extends "page.j2" %} 
+--- 
+title: "About" 
+---
+{% block title %}
+{{site_title }} : About
+{% endblock %} 
+
+{% block content %}
+<div class="row profile">
+  <div class="col-sm-3 col-lg-2">
+    <img src="media/img/heather.jpg" alt="Heather McCartney">
+  </div>
+  <div class="col-sm-9 col-lg-10">
+    <p>
+      I have a music degree and began my working life as a secondary
+      school music teacher. After a brief stint as acting head of department, I 
+      took a break to do an MSc in Music Technology at York University with a view
+      to teaching Music Technology at A Level.</p>
+    <p>
+      Instead, I fell in love with coding and never went back.
+    </p>
+    <p>In the 14 years since, I've worked at companies of all sizes, initially
+      as a Java developer, but also with Python, UI and DevOps.
+      I've particularly enjoyed my work at Machine Learning/AI startups,
+      including 
+      <a href="https://idio.ai/" target="_blank">Idio</a>,
+      <a href="http://stashmetrics.com/" target="_blank">Stashmetrics</a>
+      and <a href="https://yossarian.co/" target="_blank">Yossarian</a>.
+    </p>
+    <p>
+      I live in <a href="https://www.visityork.org/" target="_blank">York</a> with
+      my husband and two primary aged children. In my spare time I enjoy running
+      and travel.
+    </p>
+  </div>
+</div><!-- /.row -->
+{% endblock %}

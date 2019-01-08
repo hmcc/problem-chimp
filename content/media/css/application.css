@@ -20,23 +20,18 @@ float: left;
 
 /* Home
 -------------------------------------------------- */
-/* Styling for profile section */
-.profile {
-  padding: 40px 0px;
+/* Styling for hero section */
+.hero {
+  margin: 20px 0px;
   background-color: #f8f8f8;
 }
 
-@media (min-width: 768px) {
-  .profile img {
-    padding-top: 30px
-  }
-}
-
-/* Work
+/* About
 -------------------------------------------------- */
-/* Padding on images */
-.work img {
-  padding-right: 10px;
+@media (min-width: 768px) {
+  .profile > div {
+    margin-bottom: 30px
+  }
 }
 
 /* Blog

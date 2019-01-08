@@ -23,12 +23,9 @@ context:
             - title: Home
               type: node
               url: /
-            - title: Work
+            - title: About
               type: node
-              url: /work
-            - title: Blog
-              type: node
-              url: /blog
+              url: /about
             - title: Contact
               type: node
               url: /contact
