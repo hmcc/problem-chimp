@@ -18,6 +18,11 @@ float: left;
   vertical-align:middle;
 }
 
+div#post-timestamp {
+  color: #777;
+  margin-bottom: 20px;
+}
+
 /* Home
 -------------------------------------------------- */
 /* Styling for hero section */
@@ -39,7 +44,13 @@ float: left;
 /* Display images in posts on a line of their own */
 article.post img {
   display: block;
+  float: left;
   margin-bottom: 24px;
+  margin-right: 24px;
+}
+
+article.post p {
+  clear: left;
 }
 
 /* Margin before recent posts */
@@ -49,6 +60,15 @@ article.post {
 
 div#post-content {
   margin-bottom: 48px;
+}
+
+article blockquote {
+  font-size: 1em;
+}
+
+article pre {
+  font-size: 0.6em;
+  background-color: #f8f8f8;
 }
 
 /* Contact

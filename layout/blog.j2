@@ -7,12 +7,12 @@
       <div id="post-header">
         <h1>
           {{ resource.meta.title }}
-          <small>
-            <time datetime="{{ res.meta.created.strftime('%Y-%m-%d') }}">
-              {{ resource.meta.created.strftime('%a, %d %b %Y') }}
-            </time>
-          </small>
         </h1>
+      </div>
+      <div id="post-timestamp">
+        <time datetime="{{ res.meta.created.strftime('%Y-%m-%d') }}">
+          {{ resource.meta.created.strftime('%a, %d %b %Y') }}
+        </time>
       </div>
 
       <div id="post-body">

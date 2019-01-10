@@ -1,0 +1,136 @@
+---
+title: "Days 1-3: Dual boot Windows 10 and Ubuntu 18, the hard way"
+created: !!timestamp '2018-01-10'
+---
+
+{% mark excerpt -%}
+
+Before I can start playing around with some more interesting things, I need a
+computer to play around on them with. My desktop has Windows 10 as a base with
+Ubuntu running inside [VirtualBox](https://www.virtualbox.org/wiki/VirtualBox),
+but I want to dual boot Ubuntu instead.
+I've dual booted before, so I thought I knew what I was doing, but it turns out
+that I was just lucky all those other times because this time it got a lot more
+interesting, and I ended up learning lots about UEFI and BIOS and why the
+differences are important.
+
+{%- endmark %}
+
+
+The internet is full of "how to dual boot" guides.
+If you read carefully, you'll see that the better
+ones are really, really specific about who the guide is for. Here is an example
+of a specific title:
+
+> [How to dual boot Ubuntu 16.04 and Windows 10 on a PC with UEFI firmware](http://linuxbsdos.com/2016/06/05/dual-boot-ubuntu-16-04-and-windows-10-on-a-pc-with-uefi-firmware/)
+
+The trouble is that
+a) not all guides are so specific about who they're for 
+b) even if they are specific, you may not notice
+c) even if you notice, it's much more fun to believe that the specifics don't
+matter and to just go for it anyway and
+d) even if you are prepared to admit that the specifics matter, you may not
+know how to find them out.
+
+And that may be fine, or it may lead to scouring forums for stuff like
+"Ubuntu installer can't find my Windows installation", or worse.
+
+So here is my guide to choosing a guide:
+ 
+<pre>
+                                                              _______
+                                                             |       |
+                                                             | Start |
+                                                             |_______|
+                                                                 |
+                ----------------------->-------------------------|
+                |                                                |
+ _______________|_______________                _________________V_________________        _______________________________
+|                               |    NO IDEA   /                                  /  NO   |                               |<-------      
+| No worries; you can <a href="#firmware-mode">find out</a>! |<------------/ Does your PC have <a href="#uefi">UEFI</a> firmware? /------->| You should be fine!           |       |
+|_______________________________|            /__________________________________/         | Go to <a href="http://dailylinuxuser.com/2015/11/how-to-install-ubuntu-linux-alongside_8.html">dual boot in BIOS mode</a>. |       |
+                                                                 |                        |_______________________________|       |
+                ----------------------->-------------------------|                                                                |
+                |                                                | YES                                                            |
+ _______________|_______________                _________________V___________________        _______________________________      |
+|                               |    NO IDEA   /                                    /  YES  |                               |     |
+| No worries; you can <a href="https://superuser.com/a/946884">find out</a>! |<------------/ Is Windows installed in <a href="#uefi">UEFI</a> mode? /------->| You should be fine!           |<----+-----
+|_______________________________|            /____________________________________/         | Go to <a href="https://hackernoon.com/installing-ubuntu-18-04-along-with-windows-10-dual-boot-installation-for-deep-learning-f4cd91b58557">dual boot in UEFI mode</a>. |     |    |
+                                                                 |                          |_______________________________|     |    |      
+                                                                 | NO                                                             |    |
+                                                     ____________V___________                                                     |    |
+                                                    |                        |                                                    ^    |
+                                    -----------<----| Choose your adventure! |---->---------------------                          |    ^
+                                    |               |________________________|                         |                          |    |
+                         ___________V____________                                  ____________________V___________________       |    |
+                        |                        |                                |                                        |      |    |
+                        | <a href="https://www.intel.co.uk/content/www/uk/en/support/articles/000024558/memory-and-storage/intel-optane-memory.html">Convert Windows to GPT</a> |                                | <a href="https://ubuntuforums.org/showthread.php?t=2286793">Boot the Ubuntu installer in BIOS mode</a> |-->----    |
+                        |________________________|                                |________________________________________|           |
+                                    |                                                                                                  |
+                                     ---------------------------------------------------------------------------------------------------
+</pre>
+
+(I followed both "no idea"s, learned a lot of stuff, and ended up [converting Windows to GPT](https://www.intel.co.uk/content/www/uk/en/support/articles/000024558/memory-and-storage/intel-optane-memory.html).)
+
+<h3 id="uefi">What's UEFI and why is it important?</h3>
+
+For a much better explanation, I really recommend AdamW's
+[UEFI boot: how does that actually work, then?](https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/),
+but to summarise:
+
+* In the beginning, IBM compatible PCs used to run
+[BIOS](https://en.wikipedia.org/wiki/BIOS) firmware.
+* [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface)
+is a newer type of firmware that is designed to be more cross-compatible.
+* BIOS and UEFI imply different layouts on disk; BIOS implies
+[MBR](https://en.wikipedia.org/wiki/Master_boot_record) while UEFI implies
+[GPT](https://en.wikipedia.org/wiki/GUID_Partition_Table). So an OS is
+installed "for" BIOS or UEFI by using one of these layouts.
+* UEFI firmware can often still use an MBR layout, for backwards
+compatibility. So it's possible to have UEFI firmware, but Windows installed
+in BIOS mode.
+* When dual booting, *avoid mixing the two styles*. If one OS is
+installed "for" UEFI, then any others should be too.
+
+<h3 id="firmware-mode">How to find out if a PC has UEFI firmware</h3>
+
+The easiest way to find out is probably to
+<a href="https://superuser.com/a/946884">check the BIOS mode setting in Windows</a>.
+If that's UEFI, then the firmware must be UEFI as well.
+
+However, if Windows is installed in BIOS mode, that doesn't necessarily mean
+that the firmware is not UEFI, because of backwards compatibility - so you
+will have to roll up your sleeves and check your firmware settings. 
+
+It's best to find specific instructions for your PC, but in general:
+
+* On startup, open the firmware settings by using the hotkey. It will usually
+appear briefly on screen before Windows loads. Common hotkeys are F2, F10 or
+Del.
+* Look for "UEFI" in the boot options, and/or look for "Secure Boot" - this is
+only supported in UEFI.
+
+----
+**Note**: I do realise that dual boot is actually a terrible idea. It's much
+simpler (and safer) to have one OS and use
+[virtualization](https://en.wikipedia.org/wiki/Virtualization) instead. I only
+put myself through this because:
+
+* I have found the performance of Ubuntu in VirtualBox to be terrible.
+* Ubuntu 18 [isn't officially supported](https://www.oracle.com/technetwork/server-storage/virtualbox/support/index.html) on VirtualBox.
+* Ubuntu is my "main" machine i.e. I use IDEs and such in it, and unlike
+practially everyone else, I *like* the efforts Canonical are making with the
+UI, so I'm reluctant to swap it for a less graphically rich <del>ugly</del>
+Linux. Sorry.
+* But Windows is also my "main" machine, because my kids play games on it (and
+occasionally so do I).
+* There's very little overlap between the things I do with Windows and the
+things I do with Linux, so I don't need any of the clever solutions that
+seamlessly swap between the two, although some of them do sound cool and I may
+try them later.
+
+----
+**Another note**: Don't worry, this didn't actually take me 3 days. My days
+are short, and writing this and drawing the diagram took a lot of time.
+
+----
