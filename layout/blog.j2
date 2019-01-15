@@ -27,7 +27,19 @@
     <hr></hr>
 
     <div id="disqus_thread"></div>
-    <script src="{{ media_url('js/disqus.js') }}"></script>
+    <script>
+      var disqus_config = function () {
+        this.page.url = document.URL;
+        this.page.identifier = "{{ resource.url }}";
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://problemchimp.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
 
     <hr></hr>
 
