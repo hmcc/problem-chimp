@@ -1,6 +1,7 @@
 ---
 title: "Days 1-3: Dual boot Windows 10 and Ubuntu 18, the hard way"
-created: !!timestamp '2018-01-10'
+created: !!timestamp '2018-01-11 12:00:00'
+id: blog/dual-boot
 ---
 
 {% mark excerpt -%}
@@ -88,7 +89,7 @@ is a newer type of firmware that is designed to be more cross-compatible.
 installed "for" BIOS or UEFI by using one of these layouts.
 * UEFI firmware can often still use an MBR layout, for backwards
 compatibility. So it's possible to have UEFI firmware, but Windows installed
-in BIOS mode.
+in "BIOS mode".
 * When dual booting, *avoid mixing the two styles*. If one OS is
 installed "for" UEFI, then any others should be too.
 
@@ -104,7 +105,7 @@ will have to roll up your sleeves and check your firmware settings.
 
 It's best to find specific instructions for your PC, but in general:
 
-* On startup, open the firmware settings by using the hotkey. It will usually
+* On startup, open the firmware settings by using the hotkey. This will usually
 appear briefly on screen before Windows loads. Common hotkeys are F2, F10 or
 Del.
 * Look for "UEFI" in the boot options, and/or look for "Secure Boot" - this is
@@ -117,7 +118,7 @@ simpler (and safer) to have one OS and use
 put myself through this because:
 
 * I have found the performance of Ubuntu in VirtualBox to be terrible.
-* Ubuntu 18 [isn't officially supported](https://www.oracle.com/technetwork/server-storage/virtualbox/support/index.html) on VirtualBox.
+* Ubuntu 18 [isn't officially supported](https://www.oracle.com/technetwork/server-storage/virtualbox/support/index.html) in VirtualBox.
 * Ubuntu is my "main" machine i.e. I use IDEs and such in it, and unlike
 practially everyone else, I *like* the efforts Canonical are making with the
 UI, so I'm reluctant to swap it for a less graphically rich <del>ugly</del>
@@ -128,9 +129,3 @@ occasionally so do I).
 things I do with Linux, so I don't need any of the clever solutions that
 seamlessly swap between the two, although some of them do sound cool and I may
 try them later.
-
-----
-**Another note**: Don't worry, this didn't actually take me 3 days. My days
-are short, and writing this and drawing the diagram took a lot of time.
-
-----
