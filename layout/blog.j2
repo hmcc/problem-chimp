@@ -26,7 +26,7 @@
 
     <hr></hr>
 
-    <div id="disqus_thread"></div>
+    <!--<div id="disqus_thread"></div>
     <script>
       var disqus_config = function () {
         this.page.url = document.URL;
@@ -41,7 +41,7 @@
       })();
     </script>
 
-    <hr></hr>
+    <hr></hr>-->
 
     {% if resource.next_by_time %}<a href="{{ content_url(resource.next_by_time.url) }}">&lt; Previous</a>{% endif %}
     {% if resource.prev_by_time %}<a href="{{ content_url(resource.prev_by_time.url) }}">Next &gt;</a>{% endif %}
