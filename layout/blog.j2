@@ -7,12 +7,12 @@
       <div id="post-header">
         <h1>
           {{ resource.meta.title }}
-          <small>
-            <time datetime="{{ res.meta.created.strftime('%Y-%m-%d') }}">
-              {{ resource.meta.created.strftime('%a, %d %b %Y') }}
-            </time>
-          </small>
         </h1>
+      </div>
+      <div id="post-timestamp">
+        <time datetime="{{ res.meta.created.strftime('%Y-%m-%d') }}">
+          {{ resource.meta.created.strftime('%a, %d %b %Y') }}
+        </time>
       </div>
 
       <div id="post-body">
@@ -24,8 +24,27 @@
       </div>
     </article>
 
-    {% if resource.prev_by_time %}<a href="{{ content_url(resource.prev_by_time.url) }}">&lt; Previous</a>{% endif %}
-    {% if resource.next_by_time %}<a href="{{ content_url(resource.next_by_time.url) }}">Next &gt;</a>{% endif %}
+    <hr></hr>
+
+    <!--<div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = document.URL;
+        this.page.identifier = "{{ resource.url }}";
+      };
+
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://problemchimp.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+
+    <hr></hr>-->
+
+    {% if resource.next_by_time %}<a href="{{ content_url(resource.next_by_time.url) }}">&lt; Previous</a>{% endif %}
+    {% if resource.prev_by_time %}<a href="{{ content_url(resource.prev_by_time.url) }}">Next &gt;</a>{% endif %}
   </div>
 
   <div id="recent-content" class="span4">
