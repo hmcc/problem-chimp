@@ -1,0 +1,137 @@
+---
+title: "Days 4-8: Contributing to Elasticsearch"
+created: !!timestamp '2018-01-16 12:00:00'
+---
+
+{% mark excerpt -%}
+
+Day 4 fell on a Friday, which didn't feel like a good day to start on something
+too ambitious, so I started looking around for a quick bugfix in an open source
+project somewhere. Of course, there is no such thing as a quick bugfix,
+especially when it's not my code - but it was a useful lesson in how to
+contribute to open source.
+
+{%- endmark %}
+
+
+I've done a little open source in the past, but I can still count my
+[contributions](https://github.com/apache/storm/pulls?q=is%3Apr+is%3Aclosed+author%3Ahmcc)
+on one hand, so my experience level isn't far off "absolute beginner".
+There are many great resources dedicated to helping beginners get started
+(for example [this one](https://opensource.guide/how-to-contribute/)), but the
+2 things I still struggle with are:
+
+1. finding an issue to work on
+2. dealing with people much smarter than I am
+
+### Finding an issue
+
+Before finding an issue, I need to find a project. I'm looking at
+[Elasticsearch](https://www.elastic.co/products/elasticsearch)
+right now because:
+
+* it's something I use
+* it's something I'm curious about
+* I've browsed around a bit and the community seemed friendly and respectful.
+
+Many open source projects have an issue label for first-timers; for
+Elasticsearch it's "good first issue". Also, I look for recent issues
+which haven't already been claimed by someone else, and which haven't yet
+descended into [bikeshedding](http://bikeshed.com/).
+
+Go ahead and do the
+[search](https://github.com/elastic/elasticsearch/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+label%3A%22good+first+issue%22+created%3A%3E2018-10-01+)
+- maybe you'll get lucky. However, in my experience, **issues like this don't
+exist**.
+
+{% mark image -%}
+
+![Don't Panic (from The Hitchhikers Guide)]([[!!img/dont-panic.jpg]])
+
+{%- endmark %}
+
+
+It's really easy to believe that this is because "the community doesn't want
+my help" or even "I'm not good enough at this". However, if you've ever
+mentored a junior developer (or been a junior developer), you'll know how hard
+it is to come up with work that fits these criteria! I don't believe open
+source organisations are any different - except that as well as their own
+internal new developers, they're also dealing with external ones like me.
+
+Here are some things that may help:
+
+1. If you don't need to work on an issue right this second, then just check
+back another day. There are even [tools](https://www.codetriage.com/) that
+will automate the checking process.
+2. Expand the search to more projects.
+3. Create your own issue - this can be really small, such as a typo in the
+documentation.
+4. Work on an issue that no one else wants to touch.
+5. Go down the rabbit hole!
+
+"[Down the rabbit hole](https://code.likeagirl.io/down-the-rabbit-hole-how-i-taught-myself-to-code-became-an-engineer-dcb4517c4962)"
+is an expression programmers often use to describe the process of digging deep
+into something that they don't understand, especially if it isn't what they're
+officially supposed to be doing at the time. It works really well for open
+source because these projects are often huge, and sometimes chaotic, so if
+you just start *somewhere* and follow your nose, it's likely you'll find
+something useful to do before too long!
+
+For example, I started off with an
+[issue no one else wanted](https://github.com/elastic/elasticsearch/issues/34264),
+but couldn't get Elasticsearch to build. I worked out what it was pretty
+quickly (I was missing an environment variable) but instead of setting it and
+getting on with my day, I found myself curious about why the build output
+hadn't told me what was wrong. 2 days and a crash course in
+[Gradle](https://gradle.org/) later, I'd created an
+[issue](https://github.com/elastic/elasticsearch/issues/37586) and
+[2](https://github.com/elastic/elasticsearch/pull/37588)
+[PRs](https://github.com/elastic/elasticsearch/pull/37589). Result!
+
+### Dealing with smart people
+
+I'm saying this slightly tongue-in-cheek, because like many developers
+there's definitely some
+[impostor syndrome](https://en.wikipedia.org/wiki/Impostor_syndrome)
+going on here. I've never worked in open source and don't know anyone who has,
+so it's very easy to put open source developers into a separate "superhuman"
+category to which I'll never belong. This is stupid, obviously, but I do it
+anyway.
+
+On the other hand, the developers of an open source project *do* know more
+than me - probably about programming in general, and definitely about their
+project in particular. So it's worth putting the effort in and being as sure
+as I can of what I'm saying before I say it.
+
+Here's how I try to walk that fine line between being too afraid of looking
+like an idiot, and actually being one:
+
+<i class="fa fa-times"></i> DON'T: sprinkle issues/PRs with "I think" and
+"maybe". It's filler that no one needs to read. Either become sure, or
+don't say it at all.
+
+<i class="fa fa-check"></i> DO: be specific about my environment and what
+I did. If I'm seeing something that no one else sees, chances are I'm doing
+something that no one else does.
+
+<i class="fa fa-check"></i> DO: prefer questions to statements if there's a
+a chance that I don't have all the information. For example: "is this
+variable used somewhere else?" vs "this variable is unused".
+
+<i class="fa fa-check"></i> DO: iterate until I've done the best I can.
+I had several theories about what was causing my missing error message; most
+of them were wrong!
+
+<i class="fa fa-times"></i> DON'T: be afraid to say "I don't know" (but make
+it clear how I've tried to find out).
+
+<i class="fa fa-check"></i> DO: be patient! The time it takes to get a
+response does not mean that the work is bad - it just means no one has
+read it yet.
+
+<i class="fa fa-times"></i> DON'T: be discouraged if the reviewers request
+changes or even reject the work altogether. They will have to live with it
+for longer than I will! Be polite, thank them for their time, work with them
+to find a way forward, ask for more context to help see what they see, and
+above all, don't be afraid to try again.
+
