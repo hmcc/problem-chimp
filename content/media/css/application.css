@@ -71,6 +71,14 @@ article pre {
   background-color: #f8f8f8;
 }
 
+article i.fa-check {
+  color: #6ea43b;
+}
+
+article i.fa-times {
+  color: #ec2e2d;
+}
+
 /* Contact
 -------------------------------------------------- */
 /* Margin after icons */
