@@ -1,0 +1,51 @@
+---
+title: "Days 13-18: Quora Insincere Questions Classifier"
+created: !!timestamp '2019-01-31 12:00:00'
+---
+
+{% mark excerpt -%}
+
+Following my relative success with the [spam classifier](spam-classifier.html),
+I decided that a good next step would be to enter a competition on
+[Kaggle](https://www.kaggle.com/), for cash, to
+[classify questions on Quora](https://www.kaggle.com/c/quora-insincere-questions-classification).
+I mean, I've worked alongside data scientists 3 times now (and even understood
+a lot of what they said), I've taken a
+[course](https://www.coursera.org/learn/machine-learning/), and I've built
+a working [spam classifier](https://github.com/hmcc/spam-classifier). How hard
+could it be?
+
+It turns out it's actually quite hard.
+
+{%- endmark %}
+
+
+{% mark image -%}
+
+![Top of the Kaggle leaderboard with an accuracy of 0.72)]([[!!img/kaggle-leaderboard-top.png]])
+
+{%- endmark %}
+
+{% mark image -%}
+
+![Bottom of the Kaggle leaderboard with my accuracy of 0.587)]([[!!img/kaggle-leaderboard-me.png]])
+
+{%- endmark %}
+
+
+So what went wrong?
+
+* The task is as much an NLP task as a ML one. I've done a little NLP, but it
+was far too [specific](https://www.cl.cam.ac.uk/~es407/papers/Coling10.pdf) to
+be any use here. I'm going to add
+[this introductory NLP course](http://web.stanford.edu/class/cs224n/) to my
+todo list!
+* I wasn't social enough - many of the top performing kernels were based on
+the work of others.
+* My spam classifier didn't scale well. I was aware that it wouldn't, but I
+underestimated how much time it would take me to fix this, meaning that I
+didn't really have enough time overall.
+
+I would have loved to keep going with it, because it's been a lot of fun, but
+at 4 weeks into a 6 week "[retreat](retreat.html)" I think I need to be a bit
+more selective about how I spend my time, and a lot less ambitious :)
