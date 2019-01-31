@@ -1,0 +1,169 @@
+---
+title: "Days 9-12: Building a spam classifier in Python"
+created: !!timestamp '2019-01-23 12:00:00'
+---
+
+{% mark excerpt -%}
+
+I love taking courses. For me it's like travelling to a new country, but with
+a great guide - all that lovely unexplored territory, but you know you can
+navigate it without anything going too badly wrong.
+
+Of the courses I've taken, by far my favourite has been
+[Andrew Ng](https://en.wikipedia.org/wiki/Andrew_Ng)'s
+[Machine Learning course on Coursera](https://www.coursera.org/learn/machine-learning/).
+It took me a little while to decide to do it because the programming assignments are in
+[Octave](https://www.gnu.org/software/octave/), which is not a language I'm
+ever likely to use professionally. However, I'm so glad I did, because he
+explains the concepts so clearly, and the difficulty level was just right given
+I last studied maths in 1996!
+
+To consolidate what I've learned, I want to repeat some of the exercises in Python,
+starting with the spam classifier because it's related to a
+[competition on Kaggle](https://www.kaggle.com/c/quora-insincere-questions-classification/)
+that I think could be interesting.
+
+{%- endmark %}
+
+To classify emails as spam or not spam, both the original assignment and my
+Python version followed these steps:
+
+1. Preprocess the email e.g. lowercasing and stemming
+2. Convert the email to a bag of words
+3. Train a support vector machine for classification
+
+
+### Emails as bags of words
+
+I know this is step 2, but I want to explain it first because I think the
+preprocessing step will make more sense if we know what's going to happen
+next.
+
+Say we have 4 texts like this:
+
+<pre>
+1. I am Sam. Sam I am.
+2. That Sam-I-am! That Sam-I-am! I do not like that Sam-I-am!
+3. Do you like green eggs and ham?
+4. I do not like green eggs and ham. I do not like them, Sam-I-am.
+</pre>
+
+If we were trying to group them, we could say, for example, that texts 3 and 4
+are about "green eggs and ham", or that only text 3 does not mention "Sam I
+am". If texts 1 and 2 were labelled as spam, a system could learn to classify
+texts as "not spam" if they contain "green eggs and ham", or as "spam" if they
+mostly contain "Sam I am".
+
+Since machine learning systems generally work by manipulating numbers not
+words, to make a system like this we convert the text into a matrix of features
+where each column is a feature (i.e. one of the words in the corpus), each row
+is a text, and each cell is set to 1 if the feature appears in that text.
+
+<pre>
+|                                                                 | I   | am  | Sam | That | do  | not | like | you | green | eggs | and | ham | them |
+| --------------------------------------------------------------- | --- | --- | --- | ---- | --- | --- | ---- | --- | ----- | ---- | --- | --- | ---- |
+| I am Sam. Sam I am                                              |   1 |   1 |   1 |    0 |   0 |   0 |    0 |   0 |     0 |    0 |   0 |   0 |    0 |
+| That Sam-I-am! That Sam-I-am! I do not like that Sam-I-am!      |   1 |   1 |   1 |    1 |   1 |   1 |    1 |   0 |     0 |    0 |   0 |   0 |    0 |
+| Do you like green eggs and ham?                                 |   0 |   0 |   0 |    0 |   1 |   0 |    1 |   1 |     1 |    1 |   1 |   1 |    0 |
+| I do not like green eggs and ham. I do not like them, Sam-I-am. |   1 |   1 |   1 |    0 |   1 |   1 |    1 |   0 |     1 |    1 |   1 |   1 |    1 |
+</pre>
+
+Remember that matrix multiplication works like this:
+
+<pre>
+            [ x ]
+[ a b c ] * [ y ] = [ ax + by + cz ]
+[ d e f ]   [ z ]   [ dx + ey + fz ]
+</pre>
+
+So if <pre>[ a b c ]</pre> is a row of ones and zeroes representing a single
+text, and <pre>[ax + by + cz]</pre> is 1 if the text is spam and 0 if it is
+not, a system can learn values for x, y and z (called the *model*) so that the
+texts are classified correctly.
+
+(It's actually a little bit more complicated than that, but I'll get to that
+later.)
+
+### Preprocessing the emails
+
+In the table above, I made a number of assumptions, for example that "That"
+and "that" were the same word, and that "Sam-I-am" is the same as "Sam I am".
+Preprocessing the emails avoids the need for such assumptions by standardising
+the text before building the feature matrix.
+
+The spam classifier uses the following preprocessing steps:
+
+* lowercasing
+* stripping HTML tags
+* replace all URLS with "httpaddr"
+* replace all email addresses with "emailaddr"
+* replace all numbers with "number"
+* replace common currency signs (e.g. $, £) with "currency" (the original assignment used only $)
+* [word stemming](https://en.wikipedia.org/wiki/Stemming)
+* remove non-alphabetic characters
+
+### Training a support vector machine
+
+The system I outlined above (where the matrix multiplation was solved for
+x, y and z) is [linear regression](https://en.wikipedia.org/wiki/Linear_regression).
+It's the easiest to explain, but it's not normally used for classification
+since it predicts a continuous-valued output and we want 0s and 1s. A better
+system would be
+[logistic regression](https://en.wikipedia.org/wiki/Logistic_regression),
+where a [sigmoid function](https://en.wikipedia.org/wiki/Sigmoid_function)
+is used instead of multiplication to restrict the output range.
+
+Logistic regression works well if there's a single straight-line boundary
+between data in one class and data in the other, like this. 
+
+{% mark image -%}
+
+![Straight boundary through 2 classes of data)]([[!!img/straight-boundary.png]])
+
+{%- endmark %}
+
+
+But what if it looks more like this?
+
+{% mark image -%}
+
+![Wiggly boundary through 2 classes of data)]([[!!img/wiggly-boundary.png]])
+
+{%- endmark %}
+
+
+That's where the
+[support vector machine](https://en.wikipedia.org/wiki/Support-vector_machine)
+comes in. With the SVM, it's still possible to choose a linear boundary (but
+one that will be less sensitive to outliers) but also to draw other lines
+through the data based on the choice of *kernel*.
+
+This is mathematically complex stuff, but Python's
+[scikit-learn](https://scikit-learn.org/stable/) library makes it really
+simple:
+
+<pre>
+from sklearn.svm import SVC
+
+model = SVC()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+</pre>
+
+When trained on the 20021010_spam and 20030228_easy_ham_2
+[SpamAssassin data sets](http://spamassassin.apache.org/old/publiccorpus/),
+even a toy project like this predicts spam with 98% accuracy, which I find
+incredible. (Not my doing; full credit to Andrew Ng for the original version
+and to the developers of scikit-learn for making it so easy to convert to
+Python.)
+
+The full source is available on
+[GitHub](https://github.com/hmcc/spam-classifier).
+
+---
+
+<small>Images based on
+[https://commons.wikimedia.org/w/index.php?curid=14941564](https://commons.wikimedia.org/w/index.php?curid=14941564)
+by By Alisneaky - Own work, CC0</small>
