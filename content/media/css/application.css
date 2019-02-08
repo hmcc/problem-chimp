@@ -67,8 +67,32 @@ article blockquote {
 }
 
 article pre {
-  font-size: 0.6em;
+  font-size: 0.7em;
   background-color: #f8f8f8;
+}
+
+/* syntax highlight based on GitHub's
+TODO there must be a better way... */ 
+article pre .pl-c {
+  color: #6a737d;
+}
+article pre .pl-cl {
+  color: #005cc5;
+}
+
+article pre .pl-en {
+  color: #6f42c1;
+}
+
+article pre .pl-k {
+  color: #d73a49;
+}
+article pre .pl-s {
+  color: #032f62;
+}
+
+article pre .pl-v {
+  color: #e36209;
 }
 
 article i.fa-check {

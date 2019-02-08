@@ -1,0 +1,161 @@
+---
+title: "Days 21-22: NIO in Java"
+created: !!timestamp '2019-02-06 12:00:00'
+---
+
+{% mark excerpt -%}
+
+To experiment with distributed systems, I've decided to first build a
+[skeleton project](distributed-systems-getting-started-2.html) in Java that
+will announce itself on the network and send messages to other instances of
+itself. In other words, I'm building a chat application.
+
+{%- endmark %}
+
+
+Java has 3 main options for sending messages using
+[sockets](https://en.wikipedia.org/wiki/Network_socket):
+
+1. [java.net](https://docs.oracle.com/javase/tutorial/networking/sockets/index.html): the original method, providing classes for blocking IO with TCP/UDP
+2. [java.nio](https://en.wikipedia.org/wiki/Non-blocking_I/O_(Java)): newer than java.net, provides blocking or non-blocking IO using buffers
+3. [java.nio2](https://www.ibm.com/developerworks/library/j-nio2-1/index.html): similar to java.nio, but adds an asynchronous API
+
+The difference between blocking and non-blocking IO is that with blocking IO,
+the socket thread will wait until it receives a response, so to serve many
+clients, you'll need many threads. With non-blocking IO, requests return
+immediately (even if there is no data), so many clients can be served with a
+single thread. (For a fuller explanation, try
+[Blocking I/O and non-blocking I/O](https://medium.com/coderscorner/tale-of-client-server-and-socket-a6ef54a74763)
+by Rukshani Athapathu.)
+
+If I was coding a professional chat application, there would be a
+[debate](https://stackoverflow.com/questions/267306/java-net-versus-java-nio)
+to be had about whether java.nio is actually necessary to support the expected
+number of connections. Since I'm not, I'm simply going with my
+gut feeling, which is that using java.nio is just good practice (and not
+actually all that hard).
+
+Many [java.nio tutorials](https://crunchify.com/java-nio-non-blocking-io-with-server-client-example-java-nio-bytebuffer-and-channels-selector-java-nio-vs-io/)
+follow a client-server pattern (which doesn't really work for a distributed
+system since it introduces a single point of failure) so here's a quick
+overview of how to write an application that's capable of doing both.
+
+**1. Get a Selector**
+
+The [Selector](https://docs.oracle.com/javase/7/docs/api/java/nio/channels/Selector.html)
+class is central to non-blocking IO with Java. It's used to examine one or more
+[channels](https://docs.oracle.com/javase/7/docs/api/java/nio/channels/SelectableChannel.html)
+and find out what (if anything) they are ready to do. The 4 possible operations
+are Accept, Connect, Read and Write.
+
+<pre>
+Selector selector <span class="pl-k">=</span> Selector<span class="pl-k">.</span>open();
+</pre>
+
+**2. Start listening**
+
+Open a port to which other clients can connect, and register this with the
+selector so that it knows we are interested in the "accept" event.
+
+<pre>
+ServerSocketChannel serverChannel <span class="pl-k">=</span> ServerSocketChannel<span class="pl-k">.</span>open();
+serverChannel<span class="pl-k">.</span>configureBlocking(<span class="pl-cl">false</span>);
+InetSocketAddress address <span class="pl-k">=</span> <span class="pl-k">new</span> InetSocketAddress(<span class="pl-s">"localhost"</span>, port);
+serverChannel<span class="pl-k">.</span>socket()<span class="pl-k">.</span>bind(address);
+
+serverChannel<span class="pl-k">.</span>register(selector, SelectionKey<span class="pl-k">.</span><span class="pl-cl">OP_ACCEPT</span>);
+</pre>
+
+**3. Accept incoming connections**
+
+When a client connects to us, we want to accept the connection, put the channel
+into non-blocking mode, and register that we are interested in reading and
+writing.
+
+<pre>
+<span class="pl-k">private void</span> <span class="pl-en">accept</span>(SelectionKey <span class="pl-v">key</span>) {
+    ServerSocketChannel serverChannel <span class="pl-k">=</span> (ServerSocketChannel) key<span class="pl-k">.</span>channel();
+    SocketChannel channel <span class="pl-k">=</span> serverChannel<span class="pl-k">.</span>accept();
+
+    <span class="pl-c">// Configure the connection as non-blocking, and register it as readable and writable</span>
+    channel<span class="pl-k">.</span>configureBlocking(<span class="pl-cl">false</span>);
+    channel<span class="pl-k">.</span>register(selector, SelectionKey<span class="pl-k">.</span><span class="pl-cl">OP_READ</span> <span class="pl-k">|</span> SelectionKey<span class="pl-k">.</span><span class="pl-cl">OP_WRITE</span>);
+}
+</pre>
+
+**4. Make outgoing connections**
+
+To act as both client and server, the application shouldn't just accept
+incoming connections, but should make outgoing connections too.
+
+Until I set up
+[service discovery](https://en.wikipedia.org/wiki/Service_discovery), I'm just
+going to give the application a port range, listen on the first available port
+in that range, and attempt to connect to the others. To make a single outgoing
+connection:
+
+<pre>
+InetSocketAddress address <span class="pl-k">=</span> new InetSocketAddress(<span class="pl-s">"localhost"</span>, port);
+SocketChannel channel <span class="pl-k">=</span> SocketChannel<span class="pl-k">.</span>open(address);
+
+<span class="pl-c">// Configure the connection as non-blocking, and register it as readable and writable</span>
+channel<span class="pl-k">.</span>configureBlocking(<span class="pl-cl">false</span>);
+channel<span class="pl-k">.</span>register(selector, SelectionKey<span class="pl-k">.</span><span class="pl-cl">OP_READ</span> <span class="pl-k">|</span> SelectionKey<span class="pl-k">.</span><span class="pl-cl">OP_WRITE</span>);
+</pre>
+
+**5. Read and write**
+
+Read from and write to the socket using
+[ByteBuffer](https://docs.oracle.com/javase/7/docs/api/java/nio/ByteBuffer.html)s.
+
+<pre>
+<span class="pl-k">private void</span> <span class="pl-en">read</span>(SelectionKey <span class="pl-v">key</span>) {
+    SocketChannel channel <span class="pl-k">=</span> (SocketChannel) key<span class="pl-k">.</span>channel();
+    ByteBuffer buffer <span class="pl-k">=</span> ByteBuffer<span class="pl-k">.</span>allocate(<span class="pl-cl">1024</span>);
+    <span class="pl-k">int</span> numRead <span class="pl-k">=</span> channel<span class="pl-k">.</span>read(buffer);
+    <span class="pl-k">if</span> (numRead <span class="pl-k">==</span> <span class="pl-k">-</span><span class="pl-cl">1</span>) {
+        return;
+    }
+    <span class="pl-k">byte</span>[] data <span class="pl-k">=</span> <span class="pl-k">new</span> byte[numRead];
+    System<span class="pl-k">.</span>arraycopy(buffer<span class="pl-k">.</span>array(), <span class="pl-cl">0</span>, data, <span class="pl-cl">0</span>, numRead);
+    ...
+}
+</pre>
+
+<pre>
+<span class="pl-k">private void</span> <span class="pl-en">write</span>(SelectionKey <span class="pl-v">key</span>) {
+    SocketChannel channel <span class="pl-k">=</span> (SocketChannel) key<span class="pl-k">.</span>channel();
+    ByteBuffer bufferedMessage <span class="pl-k">=</span> ByteBuffer<span class="pl-k">.</span>wrap(message);
+    <span class="pl-k">int</span> written <span class="pl-k">=</span> channel<span class="pl-k">.</span>write(bufferedMessage);
+    ...
+}
+</pre>
+
+**6. Put it all together: query the Selector and handle the result**
+
+<pre>
+Iterator<SelectionKey> keyIterator <span class="pl-k">=</span> selector<span class="pl-k">.</span>selectedKeys()<span class="pl-k">.</span>iterator();
+<span class="pl-k">while</span> (keyIterator<span class="pl-k">.</span>hasNext()) {
+    
+    SelectionKey key <span class="pl-k">=</span> keyIterator<span class="pl-k">.</span>next();
+    <span class="pl-k">if</span> (key<span class="pl-k">.</span>isAcceptable()) {
+        <span class="pl-c">// accept the connection</span>
+        accept(key);
+
+    } <span class="pl-k">else if</span> (key<span class="pl-k">.</span>isReadable()) {
+        <span class="pl-c">// read data</span>
+        read(key);
+            
+    } <span class="pl-k">else if</span> (key<span class="pl-k">.</span>isWritable()) {
+        <span class="pl-c">// write to the socket</span>
+        write(key, message);
+    }
+    
+    <span class="pl-c">// very important: remove the key to be notified of future events</span>
+    keyIterator<span class="pl-k">.</span>remove();
+}
+</pre>
+
+The full source is
+[available on GitHub](https://github.com/hmcc/java-sockets-demo/blob/master/src/main/java/org/problemchimp/io/NIORunnable.java).
+Enjoy!
