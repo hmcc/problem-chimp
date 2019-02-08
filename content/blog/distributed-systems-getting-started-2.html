@@ -1,0 +1,42 @@
+---
+title: "Day 20: Getting started with Distributed Systems: part 2"
+created: !!timestamp '2019-02-04 12:00:00'
+---
+
+{% mark excerpt -%}
+
+I have a [list of things to try
+building](distributed-systems-getting-started-1.html) now, but I still feel
+like there's more to do before I can get properly started. My thought process
+right now feels a little like the childrens' song
+"[There's a hole in my bucket](https://en.wikipedia.org/wiki/There%27s_a_Hole_in_My_Bucket)".
+
+{%- endmark %}
+
+
+* To have a distributed program, I need a distributed system.
+* To have a distributed system, I need computers/processes that
+can communicate.
+* To have computers/processes communicate, they need to be able to find each
+other.
+* To find each other, there needs to be a distributed program...
+
+In most of the university courses I've looked at, the students will have a
+development environment for the course, with tools/libraries to make things
+easier. I think it makes sense for me to do the same, because if I'm
+implementing, say,
+[Paxos](https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf) from scratch,
+then I think that will take most of my attention on its own, without also
+having to worry about how the messages get sent.
+
+So I'm planning to build a skeleton project that that will do 2 things:
+
+1. Announce itself and discover other instances
+([Service discovery](https://en.wikipedia.org/wiki/Service_discovery))
+2. Connect to other instances and send and receive messages
+
+Once I have that, I'm hoping to be able to simply swap out the logic in the
+middle each time, replacing the thing that prints out messages with a thing
+that does [vector clocks](https://en.wikipedia.org/wiki/Vector_clock) or
+[2 phase commit](https://courses.cs.washington.edu/courses/cse551/09au/papers/CSE550BHG-Ch7.pdf)
+or Paxos.
