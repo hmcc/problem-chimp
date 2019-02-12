@@ -19,12 +19,11 @@
 </div><!-- /.profile -->
 
 <div class="container">
-
   <section class="blog_excerpt">
     <ul class="list-unstyled">
 
     {% for res in resource.node.walk_resources_sorted_by_time() %}
-      {% if loop.index0 < 5 %}<li><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></li>{% endif %}
+      <li><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></li>
     {%- endfor %}
     </ul>
   </section>

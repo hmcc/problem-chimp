@@ -1,8 +1,10 @@
 {% extends "page.j2" %}
 {% from "macros.j2" import render_excerpt with context  %}
 {% block content %}
-  {% for res in resource.node.walk_resources_sorted_by_time() %}
-    {{ render_excerpt(res) }}
-  {% endfor %}
+  <ul class="list-unstyled">
+    {% for res in resource.node.walk_resources_sorted_by_time() %}
+      <li><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></li>
+    {%- endfor %}
+    </ul>
 
 {% endblock %}
