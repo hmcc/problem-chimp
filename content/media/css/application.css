@@ -67,8 +67,13 @@ article blockquote {
 }
 
 article pre {
+  display: block;
   font-size: 0.7em;
   background-color: #f8f8f8;
+}
+
+article pre.inline {
+  display: inline;
 }
 
 /* syntax highlight based on GitHub's
@@ -101,6 +106,10 @@ article i.fa-check {
 
 article i.fa-times {
   color: #ec2e2d;
+}
+
+article .indent {
+  margin-left: 100px;
 }
 
 /* Contact

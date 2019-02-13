@@ -1,0 +1,123 @@
+---
+title: "Days 23-27: Using jmDNS for service discovery"
+created: !!timestamp '2019-02-13 12:00:00'
+---
+
+{% mark excerpt -%}
+
+Continuing with my distributed systems
+[skeleton project](distributed-systems-getting-started-2.html), I've been
+playing around with
+[service discovery](https://en.wikipedia.org/wiki/Service_discovery) with
+[jmDNS](https://github.com/jmdns/jmdns).
+jmDNS is a pure Java implementation of
+[Zeroconf](https://en.wikipedia.org/wiki/Zero-configuration_networking),
+better known as
+[Apple Bonjour](https://en.wikipedia.org/wiki/Bonjour_(software)). I'm using
+multicast service discovery to announce instances of my skeleton project to the
+network, and to discover other instances of the service.
+
+{%- endmark %}
+
+
+Multicast simply means sending data to multiple destination computers
+simultaneously.
+
+{% mark image -%}
+
+![Circles and arrows showing one node sending to multiple nodes)]([[!!img/multicast.png]])
+
+{%- endmark %}
+
+
+In Java, you can do that with the
+[java.net.MulticastSocket](https://docs.oracle.com/javase/7/docs/api/java/net/MulticastSocket.html)
+class:
+
+<pre>
+<span class="pl-k">byte</span>[] message <span class="pl-k">=</span> ...
+InetAddress addr <span class="pl-k">=</span> InetAddress<span class="pl-k">.</span>getByName(DNSConstants<span class="pl-k">.</span><span class="pl-cl">MDNS_GROUP</span>); <span class="pl-c">// 224.0.0.251</span>
+<span class="pl-k">int</span> port <span class="pl-k">=</span> DNSConstants<span class="pl-k">.</span><span class="pl-cl">MDNS_PORT</span>; <span class="pl-c">// 5353</span>
+MulticastSocket ms <span class="pl-k">=</span> <span class="pl-k">new</span> MulticastSocket(port);
+DatagramPacket packet <span class="pl-k">=</span> <span class="pl-k">new</span> DatagramPacket(message, message<span class="pl-k">.</span>length, addr, port);
+ms<span class="pl-k">.</span>send(packet);
+</pre>
+
+The messages themselves can be
+[questions or replies](https://en.wikipedia.org/wiki/Domain_Name_System#DNS_message_format),
+and both can contain DNS [A](https://www.cloudflare.com/learning/dns/dns-records/dns-a-record/),
+[PTR](https://www.cloudflare.com/learning/dns/dns-records/dns-ptr-record/),
+[SRV](https://en.wikipedia.org/wiki/SRV_record) and/or
+[TXT](https://en.wikipedia.org/wiki/TXT_record) records. With a debugger
+attached to my application, I can see a conversation that goes something like
+this:
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="myTabAttr" role="tablist">
+  <li class="nav-item active">
+    <a class="nav-link" id="home-tab-attr" data-toggle="tab" href="#computer-attr" role="tab" aria-controls="computer-attr" aria-selected="true"><i class="fa far fa-desktop"></i></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="human-tab-attr" data-toggle="tab" href="#human-attr" role="tab" aria-controls="human-attr" aria-selected="false"><i class="fa far fa-user"></i></a>
+  </li>
+</ul>
+              
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="computer-attr" role="tabpanel" aria-labelledby="computer-tab-attr">
+    <pre class="text-muted"><i class="fa fa-desktop"></i> Query PTR _hello-distributed-systems._tcp.local.</pre>
+    <pre class="text-info indent"><i class="fa far fa-desktop"></i> Query PTR _hello-distributed-systems._tcp.local.</pre>
+    <pre class="text-muted"><i class="fa fa-desktop"></i> Answer A localhost.local. 127.0.0.1 3600</pre>
+    <pre class="text-muted"><i class="fa fa-desktop"></i> Query ANY localhost.local.</pre>
+    <pre class="text-info indent"><i class="fa far fa-desktop"></i> Answer A localhost.local. 127.0.0.1 3600</pre>
+    <pre class="text-info indent"><i class="fa far fa-desktop"></i> Answer TXT 12b84326-467a-4ae4-bd6e-0ac566ba7811._hello-distributed-systems._tcp.local. "".</pre>
+    <pre class="text-muted"><i class="fa fa-desktop"></i> Query ANY 46ff1ae4-1b48-4ea7-8cb1-1b0ca936f60f._hello-distributed-systems._tcp.local.?</pre>
+    <pre class="text-info indent"><i class="fa far fa-desktop"></i> Answer SRV 46ff1ae4-1b48-4ea7-8cb1-1b0ca936f60f._hello-distributed-systems._tcp.local. localhost.local.:5003 3600</pre>
+    <pre class="text-info indent"><i class="fa far fa-desktop"></i> Answer TXT 46ff1ae4-1b48-4ea7-8cb1-1b0ca936f60f._hello-distributed-systems._tcp.local. "" 3600</pre>
+    <pre class="text-muted"><i class="fa fa-desktop"></i> ...</pre>
+  </div>
+  <div class="tab-pane" id="human-attr" role="tabpanel" aria-labelledby="human-tab-attr">
+    <p class="text-muted" style="margin-top: 10px"><i class="fa fa-user"></i> Hello. What does _hello-distributed-systems._tcp.local. point to?</p>
+    <p class="text-info indent"><i class="fa far fa-user"></i> Hi! What does _hello-distributed-systems._tcp.local. point to?</p>
+    <p class="text-muted"><i class="fa fa-user"></i> I can't tell you about that, but I can tell you that localhost.local. has IP 127.0.0.1.</p>
+    <p class="text-muted"><i class="fa fa-user"></i> Can you tell me anything about localhost.local.?</p>
+    <p class="text-info indent"><i class="fa far fa-user"></i> Yes I can! localhost.local. has IP 127.0.0.1.</p>
+    <p class="text-info indent"><i class="fa far fa-user"></i> Also, 12b84326-467a-4ae4-bd6e-0ac566ba7811._hello-distributed-systems._tcp.local. has text "".</p>
+    <p class="text-muted"><i class="fa fa-user"></i> That's really helpful! What do you know about 46ff1ae4-1b48-4ea7-8cb1-1b0ca936f60f._hello-distributed-systems._tcp.local.?</p>
+    <p class="text-info indent"><i class="fa far fa-user"></i> 46ff1ae4-1b48-4ea7-8cb1-1b0ca936f60f._hello-distributed-systems._tcp.local. provides the service localhost.local.:5003</p>
+    <p class="text-info indent"><i class="fa far fa-user"></i> Also, it has text "".</p>
+    <p class="text-muted"><i class="fa fa-user"></i> ...</p>
+  </div>
+</div>
+
+That last bit (the SRV record) is where my code
+[kicks in](https://github.com/hmcc/hello-distributed-systems/blob/492cbe7d6af9faab80c729b0914fd4bd46ff2cfe/src/main/java/org/problemchimp/jmdns/Listener.java#L48).
+Once I have a hostname and a port for a cooperating service, I can connect
+and start sending messages. Hooray!
+
+At this point, I hit a problem. It turned out that my
+[IO code](java-nio.html) was operating at the wrong
+[layer](https://en.wikipedia.org/wiki/OSI_model). jmDNS expects to
+advertise and resolve services at the *application* layer, but my sockets code
+only provides the *transport* layer. You can see this in the jmDNS code
+[here](https://github.com/jmdns/jmdns/blob/be72b17ed3f32c6b46ddb3d2c523699dadefa4b8/src/main/java/javax/jmdns/impl/ServiceInfoImpl.java#L248),
+where it decodes the service type string to resolve the application and
+protocol.
+
+I'd spent far too long on this already, so I made a couple of quick and possibly
+not-so-great decisions:
+
+* HTTP is ubiquitous if nothing else, so let's go with that for the application layer
+* While I can [run an embedded Jersey server](https://crunchify.com/how-to-start-embedded-http-jersey-server-during-java-application-startup/)
+in Java with very little code, that feels a little hacky, but I still don't want to deploy to a container, and [Spring Boot](https://spring.io/projects/spring-boot) will keep the recruiters happy, so here goes.
+
+You can see the result on
+[GitHub](https://github.com/hmcc/hello-distributed-systems).
+At the moment the style is a little eclectic; I'm planning to refactor the
+jmDNS part to be more
+[bean](https://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch02s02.html)-friendly
+once I know Spring Boot a little better.
+
+But for now, I'm very excited to finally be doing some
+[distributed systems stuff](distributed-systems-getting-started-1.html)
+tomorrow!
