@@ -47,6 +47,8 @@ article.post img {
   float: left;
   margin-bottom: 24px;
   margin-right: 24px;
+  max-width: 100%;
+  height: auto;
 }
 
 article.post p {
