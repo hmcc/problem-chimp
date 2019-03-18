@@ -95,7 +95,7 @@ in that range, and attempt to connect to the others. To make a single outgoing
 connection:
 
 <pre>
-InetSocketAddress address <span class="pl-k">=</span> new InetSocketAddress(<span class="pl-s">"localhost"</span>, port);
+InetSocketAddress address <span class="pl-k">=</span> <span class="pl-k">new</span> InetSocketAddress(<span class="pl-s">"localhost"</span>, port);
 SocketChannel channel <span class="pl-k">=</span> SocketChannel<span class="pl-k">.</span>open(address);
 
 <span class="pl-c">// Configure the connection as non-blocking, and register it as readable and writable</span>

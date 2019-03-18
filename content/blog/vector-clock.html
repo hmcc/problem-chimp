@@ -1,0 +1,100 @@
+---
+title: "Days 28-29: Vector clocks"
+created: !!timestamp '2019-02-22 12:00:00'
+---
+
+{% mark excerpt -%}
+
+It's taken me a while to get around to writing about this, because after
+[all](distributed-systems-getting-started-1.html)
+[that](java-nio.html)
+[preparation](jmdns.html), implementing my first distributed algorithm was a
+bit of a let-down! The problem (if you can call it a problem) is that vector
+clocks are actually really easy.
+
+{%- endmark %}
+
+
+I like the summary of the algorithm in
+[chapter 3 of Distributed Systems for Fun and Profit](http://book.mixu.net/distsys/time.html)
+(and I hope it's OK to repeat it here):
+
+* Whenever a process does work, increment its clock
+* Whenever a process sends a message, include the full vector of clocks
+* Whenever a process receives a message:
+     * Update its clock to be `max(local, received)`
+     * Increment its clock
+
+There are some small discrepancies between the algorithm as given here
+and the instructions in the
+[assignment](https://www.cs.helsinki.fi/u/jakangas/Teaching/DSP-11/DSP-Assignment2.pdf)
+I was using (there's no distinction between "doing work" and "receiving a
+message", and I needed to support incrementing the clock by arbitrary amounts)
+but the
+[implementation](https://github.com/hmcc/vector-clock/blob/master/src/main/java/org/problemchimp/vectorclock/handler/IncomingVectorClockHandler.java)
+is still simple:
+
+**Send**
+<pre>
+<span class="pl-k">protected void</span> <span class="pl-en">handleMessage</span>(VectorClockMessage <span class="pl-v">message</span>) {
+	message<span class="pl-k">.</span>setClock(vectorClock);
+	ServiceInfo service <span class="pl-k">=</span> registry<span class="pl-k">.</span>find(message<span class="pl-k">.</span>getService());
+	<span class="pl-k">if</span> (service <span class="pl-k">==</span> null) {
+		<span class="pl-cl">super</span><span class="pl-k">.</span>sendToAll(message);
+	} <span class="pl-k">else</span> {
+		<span class="pl-cl">super</span><span class="pl-k">.</span>sendToService(service, message);
+	}
+}
+</pre>
+
+**Receive**
+<pre>
+<span class="pl-k">protected void</span> <span class="pl-en">handleMessage</span>(VectorClockMessage <span class="pl-v">message</span>) {
+  <span class="pl-k">if</span> (message<span class="pl-k">.</span>getClock() <span class="pl-k">!=</span> <span class="pl-cl">null</span>) {
+      vectorClock<span class="pl-k">.</span>merge(message<span class="pl-k">.</span>getClock());
+  }
+  <span class="pl-k">if</span> (message<span class="pl-k">.</span>getAmount() <span class="pl-k">==</span> <span class="pl-cl">null</span> <span class="pl-k">||</span> message<span class="pl-k">.</span>getAmount() <span class="pl-k"><=</span> <span class="pl-cl">1</span>) {
+    vectorClock<span class="pl-k">.</span>increment(thisService<span class="pl-k">.</span>getName());
+  } <span class="pl-k">else</span> {
+    vectorClock<span class="pl-k">.</span>increment(thisService<span class="pl-k">.</span>getName(), message<span class="pl-k">.</span>getAmount());
+  }
+}
+</pre>
+
+However, working with Spring Boot was not so simple.
+
+I don't have a strong opinion about frameworks - I've seen good and bad work
+done with and without them. However, they definitely come with a learning
+curve, and right now I'm somewhere to the left of it.
+
+{% mark image -%}
+
+![Graph showing effort vs time for Spring, Struts and plain Java. Plain Java increases while the others decrease.)]([[!!img/effort-framework-graph.png]])
+
+{%- endmark %}
+
+
+That means that this project has ended up being less about learning vector
+clocks, and more about learning Spring Boot.
+I wasn't feeling great about that, but then I thought of some reasons why that
+might not be such a bad thing:
+
+<i class="fa fa-check"></i> It's a natural side effect of not knowing what I'm doing, and not knowing what I'm doing is [the whole point right now](retreat.html)
+
+<i class="fa fa-check"></i> I still learned lots, so that's a win
+
+<i class="fa fa-check"></i> I still consider Java my first language, but
+haven't written in it regularly for a couple of years, and it's been nice to
+spend time with it again
+
+<i class="fa fa-check"></i> The algorithms will get harder and when they do,
+I should feel the benefit more
+
+<i class="fa fa-check"></i> I'm much more likely to use Spring Boot in future than I am to use vector
+clocks :)
+
+---
+
+<small>Effort/time graph from 
+[Java Frameworks and the Effort they might save or create](https://amdelamar.com/blog/java-frameworks-and-the-effort-they-might-save-or-create/)
+by [Austin Delamar](https://amdelamar.com/blog/).</small>
